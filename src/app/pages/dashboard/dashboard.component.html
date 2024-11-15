@@ -1,0 +1,80 @@
+
+<div class="about-section">
+  <div class="overlay">
+    <h1 class="title">Dashboard</h1>
+    <p class="breadcrumb">Home / Dashboard</p>
+  </div>
+</div>
+
+<div class="welcome-section">
+  <h1 class="welcome-message">Welcome to Your Learning Dashboard!</h1>
+  <p class="subtitle">Discover courses tailored to boost your skills and knowledge.</p>
+</div>
+
+<div class="course-page">
+  <h1 class="page-title">Explore Our Courses</h1>
+  <div class="action-buttons">
+    <button class="action-button" (click)="navigateToStudyPlan()">View Study Plan</button>
+    <button class="action-button" (click)="navigateToProgress()">Progress</button>
+  </div>
+
+  <input
+    type="text"
+    class="search-bar"
+    placeholder="Search for a course..."
+    [(ngModel)]="searchTerm"
+    (input)="filterCourses()"
+  />
+
+  <div class="courses-container">
+    <div
+      *ngFor="let course of filteredCourses"
+      class="course-card"
+      (mouseenter)="showDetails(course)"
+      (mouseleave)="hideDetails(course)"
+    >
+      <img [src]="course.image" [alt]="course.title" class="course-image" />
+      <div class="course-content" *ngIf="!course.showDetails">
+        <h2 class="course-title">{{ course.title }}</h2>
+      </div>
+      <div class="course-details" *ngIf="course.showDetails">
+        <ul class="course-topics">
+          <li *ngFor="let topic of course.topics">{{ topic }}</li>
+        </ul>
+        <button class="get-started-button" (click)="openCourseInfo(course)">
+          Get Started
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Footer Section -->
+<footer>
+  <div class="footer-container">
+    <div class="contact-info">
+      <h2>Do You Want to Contact Us? Don’t Hesitate!</h2>
+      <p>At Study Plan Builder, we are committed to helping you achieve your learning goals. Whether you need help with your study plan or just want to connect, we are here for you.</p>
+
+      <h3>Contact Us</h3>
+      <p>Address: Study Plan Builder HQ, Bangalore</p>
+      <p>Phone: 042888 999</p>
+      <p>Email: studyplanbuilder"&#64;"gmail.com</p>
+
+      <div class="social">
+        <h3>Follow us:</h3>
+      
+      </div>
+    </div>
+
+    <div class="newsletter">
+      <h3>Subscribe to Our Newsletter</h3>
+      <p>Enter your email and receive the latest updates, tips, and special offers from us. Subscribe & Get $20 on Your First Study Plan Purchase.</p>
+      <form id="subscribeForm">
+        <input type="email" id="email" placeholder="Enter your email" required>
+        <button type="submit">Subscribe</button>
+        <p id="formMessage"></p>
+      </form>
+    </div>
+  </div>
+</footer>

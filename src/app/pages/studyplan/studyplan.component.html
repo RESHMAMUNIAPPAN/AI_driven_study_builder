@@ -1,0 +1,49 @@
+<div class="study-plan-container">
+    <!-- Chatbot Section for Generating Study Plan -->
+    <h2>AI Study Plan Generator</h2>
+    <label for="topic">Enter a topic you want to learn:</label>
+    <input type="text" id="topic" #topicInput (input)="onTopicChange(topicInput.value)" />
+    <button (click)="generateStudyPlan()">Generate Study Plan</button>
+  
+    <!-- Plan Refinement Section -->
+    <div *ngIf="studyPlan">
+      <h3>Refine Your Study Plan</h3>
+      <label for="time">Available Time per Day (hours):</label>
+      <input type="number" id="time" #timeInput (input)="onTimeChange(timeInput.value)" />
+  
+      <label for="complexity">Complexity Level:</label>
+      <select id="complexity" #complexityInput (change)="onComplexityChange(complexityInput.value)">
+        <option value="beginner">Beginner</option>
+        <option value="intermediate">Intermediate</option>
+        <option value="advanced">Advanced</option>
+      </select>
+  
+      <label for="language">Preferred Language:</label>
+      <input type="text" id="language" #languageInput (input)="onLanguageChange(languageInput.value)" />
+  
+      <button (click)="refineStudyPlan()">Refine Plan</button>
+    </div>
+  
+    <!-- Study Plan Display Section -->
+    <div *ngIf="refinedStudyPlan">
+      <h4>Your Refined Study Plan:</h4>
+      <pre>{{ refinedStudyPlan | json }}</pre>
+    </div>
+  
+    <!-- Study Materials Section -->
+    <div *ngIf="studyMaterials.length">
+      <h3>Suggested Study Materials</h3>
+      <ul>
+        <li *ngFor="let material of studyMaterials">{{ material }}</li>
+      </ul>
+      <button (click)="skipMaterials()">Skip Suggested Materials</button>
+    </div>
+    <!-- Daily Quiz Section -->
+    <div *ngIf="dailyQuiz.length">
+      <h3>Daily Quiz</h3>
+      <ul>
+        <li *ngFor="let question of dailyQuiz">{{ question }}</li>
+      </ul>
+      <button (click)="submitQuiz()">Submit Quiz</button>
+    </div>
+  </div>
