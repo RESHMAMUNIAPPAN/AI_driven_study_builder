@@ -1,90 +1,76 @@
-import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-study-plan',
-  standalone:true,
-  imports:[CommonModule],
+  selector: 'app-ai-study-plan-generator',
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './studyplan.component.html',
   styleUrls: ['./studyplan.component.css']
 })
-export class StudyPlanComponent {
-  studyPlan: any = null;
-  refinedStudyPlan: any = null;
-  studyMaterials: string[] = [];
-  dailyQuiz: string[] = [];
+export class StudyplanComponent {
+  topic: string = '';
+  timePerDay: number = 1;
+  complexity: string = 'beginner';
+  language: string = '';
+  showSuggestions: boolean = false;
+  suggestedMaterials: { title: string; link: string; type: string }[] = [];
 
-  private topic: string = '';
-  private time: number = 1;
-  private complexity: string = 'beginner';
-  private language: string = 'English';
-
-  // Function to handle topic input change
-  onTopicChange(topic: string): void {
-    this.topic = topic;
+  onInputChange(event: Event, field: string): void {
+    const value = (event.target as HTMLInputElement).value;
+    switch (field) {
+      case 'topic':
+        this.topic = value;
+        break;
+      case 'complexity':
+        this.complexity = value;
+        break;
+      case 'language':
+        this.language = value;
+        break;
+    }
   }
 
-  // Function to handle time input change
-  onTimeChange(time: string): void {
-    this.time = parseInt(time, 10) || 1;
+  incrementTime(): void {
+    this.timePerDay++;
   }
 
-  // Function to handle complexity input change
-  onComplexityChange(complexity: string): void {
-    this.complexity = complexity;
+  decrementTime(): void {
+    if (this.timePerDay > 1) {
+      this.timePerDay--;
+    }
   }
 
-  // Function to handle language input change
-  onLanguageChange(language: string): void {
-    this.language = language;
-  }
-
-  // Function to generate an initial study plan
   generateStudyPlan(): void {
-    if (this.topic) {
-      this.studyPlan = {
-        topic: this.topic,
-        timePerDay: this.time,
-        complexity: this.complexity,
-        language: this.language,
-        subtopics: ['Introduction', 'Core Concepts', 'Advanced Topics']
-      };
-      this.studyMaterials = ['Article 1', 'Video 1', 'Course 1'];
-      this.generateDailyQuiz();
-    } else {
-      alert("Please enter a topic to generate a study plan.");
+    if (!this.topic || !this.language) {
+      alert('Please fill in all details to generate a study plan.');
+      return;
     }
-  }
 
-  // Function to refine the study plan based on user input
-  refineStudyPlan(): void {
-    if (this.studyPlan) {
-      this.refinedStudyPlan = {
-        ...this.studyPlan,
-        timePerDay: this.time,
-        complexity: this.complexity,
-        language: this.language,
-        subtopics: ['Updated Introduction', 'Updated Core Concepts', 'Updated Advanced Topics']
-      };
-    }
-  }
+    const studyPlan = {
+      topic: this.topic,
+      timePerDay: this.timePerDay,
+      complexity: this.complexity,
+      language: this.language
+    };
 
-  // Function to skip suggested materials
-  skipMaterials(): void {
-    this.studyMaterials = [];
-  }
+    console.log('Generated Study Plan:', studyPlan);
+    this.showSuggestions = true;
 
-  // Function to generate a daily quiz based on the study plan
-  generateDailyQuiz(): void {
-    this.dailyQuiz = [
-      'What is the main idea of the topic?',
-      'Explain a core concept in your own words.',
-      'What is one advanced application of the topic?'
+    // Mock study material suggestions based on topic
+    this.suggestedMaterials = [
+      { title: 'Intro to ' + this.topic, link: '#', type: 'Article' },
+      { title: this.topic + ' Tutorial', link: '#', type: 'Video' },
+      { title: 'Advanced ' + this.topic, link: '#', type: 'Course' }
     ];
   }
 
-  // Function to submit the quiz
-  submitQuiz(): void {
-    alert('Quiz Submitted!');
+  skipSuggestions(): void {
+    this.showSuggestions = false;
+  }
+
+  takeQuiz(): void {
+    window.location.href = 'quiz';
+    this.showSuggestions=true;
   }
 }
