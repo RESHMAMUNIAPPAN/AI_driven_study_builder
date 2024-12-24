@@ -1,4 +1,3 @@
-
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -18,11 +17,10 @@ export class DashboardComponent {
   }
 
   navigateToStudyPlan() {
-    this.router.navigate(['/study-plan']);
+    this.router.navigate(['/studyplan']);
   }
 
   navigateToProgress() {
     this.router.navigate(['/progress']);
   }
 }
-
